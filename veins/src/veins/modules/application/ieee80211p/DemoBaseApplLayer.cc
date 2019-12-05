@@ -311,7 +311,9 @@ void DemoBaseApplLayer::populateWSM(BaseFrame1609_4* wsm, LAddress::L2Type rcvId
 
 ///======================================= Inicialize to 0 TabuList =========================================
     TabuList = {0,0,0};
-    for (int i=0; i<TabuList.size();i++){wsm->setTabuList(i,TabuList[i]);}
+
+    int TL_size = TabuList.size();
+    for (int i=0; i < TL_size;i++){wsm->setTabuList(i,TabuList[i]);}
 //======================================= Inicialize NH_GS ================================================
     if(nodeType == "rsu"){
         wsm->setNH_GS(1);
@@ -909,7 +911,7 @@ bool DemoBaseApplLayer::NNT_Update(){    ///Update NNT and return true if NNT is
 ///                                    MMMR -> DENSITY, WDIST, BW
 ///=====================================================================================================================================///
 
-bool DemoBaseApplLayer::At_Node_UpdateNextHopFields_Once_MMMR_Select_NH(DemoSafetyMessage* bsm,LAddress::L2Type recipientAddress){
+void DemoBaseApplLayer::At_Node_UpdateNextHopFields_Once_MMMR_Select_NH(DemoSafetyMessage* bsm,LAddress::L2Type recipientAddress){
 
     bsm->setRecipientAddress(recipientAddress);
     bsm->setDestinationAddress(LAddress::L2ANYCASTRSU());                   ///DIRECCION ANYCAST PARA QUE EL MENSAJE ALCANCE EL RSU MAS CERCANO

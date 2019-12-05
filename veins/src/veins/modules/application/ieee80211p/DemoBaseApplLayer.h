@@ -271,7 +271,7 @@ protected:
               *
               * @param bsm,
               */
-    virtual bool At_Node_UpdateNextHopFields_Once_MMMR_Select_NH(DemoSafetyMessage* bsm,LAddress::L2Type recipientAddress);
+    virtual void At_Node_UpdateNextHopFields_Once_MMMR_Select_NH(DemoSafetyMessage* bsm,LAddress::L2Type recipientAddress);
     /**
               * @ AT RSU *** (SRESP) update beacon bsm field with next hop according CLOSER NODE TO DESTINATION NODE ----> PENDIENTE PROTOCOLO PARA ENVIA AL NODO ORIGEN DESDE EL RSU *
               *
