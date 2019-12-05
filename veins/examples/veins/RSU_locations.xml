@@ -1,0 +1,127 @@
+
+##########################################################
+#                       RSU SETTINGS  BCN                #
+##########################################################
+*.rsu[0].mobility.x = 1750 
+*.rsu[0].mobility.y = 420
+*.rsu[0].mobility.z = 40
+*.rsu[1].mobility.x = 1090 
+*.rsu[1].mobility.y = 1190
+*.rsu[1].mobility.z = 40
+*.rsu[2].mobility.x = 1600 
+*.rsu[2].mobility.y = 1430
+*.rsu[2].mobility.z = 40
+*.rsu[3].mobility.x = 400 
+*.rsu[3].mobility.y = 1540
+*.rsu[3].mobility.z = 40
+*.rsu[4].mobility.x = 1010 
+*.rsu[4].mobility.y = 1620
+*.rsu[4].mobility.z = 40
+*.rsu[5].mobility.x = 570 
+*.rsu[5].mobility.y = 420
+*.rsu[5].mobility.z = 40
+*.rsu[6].mobility.x = 1150 
+*.rsu[6].mobility.y = 620
+*.rsu[6].mobility.z = 40
+*.rsu[7].mobility.x = 330 
+*.rsu[7].mobility.y = 900
+*.rsu[7].mobility.z = 40
+*.rsu[8].mobility.x = 450
+*.rsu[8].mobility.y = 1950
+*.rsu[8].mobility.z = 40
+*.rsu[9].mobility.x = 1530
+*.rsu[9].mobility.y = 2000
+*.rsu[9].mobility.z = 40
+*.rsu[10].mobility.x = 200
+*.rsu[10].mobility.y = 200
+*.rsu[10].mobility.z = 40
+##########################################################
+#                       RSU POSITIONS                    #
+##########################################################
+*.*.appl.RSU0X = 1750
+*.*.appl.RSU0Y = 420
+*.*.appl.RSU1X = 1090  
+*.*.appl.RSU1Y = 1190
+*.*.appl.RSU2X = 1600 
+*.*.appl.RSU2Y = 1430
+*.*.appl.RSU3X = 400 
+*.*.appl.RSU3Y = 1540
+*.*.appl.RSU4X = 1010 
+*.*.appl.RSU4Y = 1620
+*.*.appl.RSU5X = 570 
+*.*.appl.RSU5Y = 420
+*.*.appl.RSU6X = 1150 
+*.*.appl.RSU6Y = 620
+*.*.appl.RSU7X = 330  
+*.*.appl.RSU7Y = 900
+*.*.appl.RSU8X = 450  
+*.*.appl.RSU8Y = 1950
+*.*.appl.RSU9X = 1530
+*.*.appl.RSU9Y = 2000
+*.*.appl.RSU10X = 200
+*.*.appl.RSU10Y = 200
+
+
+##########################################################
+#                    RSU SETTINGS BERLIN                 #
+#                    (x,y,z RSU Locations)               #
+#                                                        #
+##########################################################
+*.rsu[0].mobility.x = 1700#1520 
+*.rsu[0].mobility.y = 2800
+*.rsu[0].mobility.z = 40
+*.rsu[1].mobility.x = 1500 
+*.rsu[1].mobility.y = 1200
+*.rsu[1].mobility.z = 40
+*.rsu[2].mobility.x = 2800 #OK CS2 
+*.rsu[2].mobility.y = 630
+*.rsu[2].mobility.z = 40
+*.rsu[3].mobility.x = 450 #ok CS3 
+*.rsu[3].mobility.y = 2000
+*.rsu[3].mobility.z = 40
+*.rsu[4].mobility.x = 1430  #ok
+*.rsu[4].mobility.y = 1900
+*.rsu[4].mobility.z = 40
+*.rsu[5].mobility.x = 3330 #OK CS4
+*.rsu[5].mobility.y = 2000
+*.rsu[5].mobility.z = 40
+*.rsu[6].mobility.x = 1955 #ok
+*.rsu[6].mobility.y = 620
+*.rsu[6].mobility.z = 40
+*.rsu[7].mobility.x = 200  #OK CS1 
+*.rsu[7].mobility.y = 3300
+*.rsu[7].mobility.z = 40
+*.rsu[8].mobility.x = 2700 #ok
+*.rsu[8].mobility.y = 3210
+*.rsu[8].mobility.z = 40
+*.rsu[9].mobility.x = 2040 #ok
+*.rsu[9].mobility.y = 2000
+*.rsu[9].mobility.z = 40
+*.rsu[10].mobility.x = 3560 #ok
+*.rsu[10].mobility.y = 3000
+*.rsu[10].mobility.z = 40
+##########################################################
+#                       RSU POSITIONS                    #
+##########################################################
+*.*.appl.RSU0X = 1700
+*.*.appl.RSU0Y = 2800
+*.*.appl.RSU1X = 1500 
+*.*.appl.RSU1Y = 1200
+*.*.appl.RSU2X = 2800
+*.*.appl.RSU2Y = 630
+*.*.appl.RSU3X = 450 
+*.*.appl.RSU3Y = 2000
+*.*.appl.RSU4X = 1430   
+*.*.appl.RSU4Y = 1900
+*.*.appl.RSU5X = 3330  
+*.*.appl.RSU5Y = 2000
+*.*.appl.RSU6X = 1955 #ok 
+*.*.appl.RSU6Y = 620
+*.*.appl.RSU7X = 200  
+*.*.appl.RSU7Y = 3300
+*.*.appl.RSU8X = 2700 #ok  
+*.*.appl.RSU8Y = 3210
+*.*.appl.RSU9X = 2040 #ok
+*.*.appl.RSU9Y = 2000
+*.*.appl.RSU10X = 3560 #ok
+*.*.appl.RSU10Y = 3000

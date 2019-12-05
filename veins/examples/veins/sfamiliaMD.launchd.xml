@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- debug config -->
+<launch>
+	<copy file="sfamilia.net.xml" />
+	<copy file="sfamiliaMD.rou.xml" />
+	<copy file="sfamilia.poly.xml" />
+	<copy file="sfamiliaMD.sumo.cfg" type="config" />
+</launch>
+

@@ -1,0 +1,225 @@
+[General]
+cmdenv-express-mode = true
+cmdenv-autoflush = true
+cmdenv-output-file = /root/Documents/RESULTS/2hGAR/logs/${configname}_${repetition}.out
+cmdenv-status-frequency = 200s
+output-scalar-file-append = false
+sectionbasedconfig-configreader-class = 
+**.cmdenv-log-level = info
+ned-path = .
+image-path = ../../images
+network = RSUExampleScenario
+#outputvectormanager-class="omnetpp::envir::SqliteOutputVectorManager"
+#outputscalarmanager-class="omnetpp::envir::SqliteOutputScalarManager"
+##########################################################
+#            Simulation parameters                       #
+##########################################################
+debug-on-errors = false
+print-undisposed = true
+sim-time-limit = 5000s
+**.scalar-recording = false
+**.vector-recording = false
+################      BARCELONA ##########################
+*.playgroundSizeX = 6000m
+*.playgroundSizeY = 4500m
+*.playgroundSizeZ = 50m
+#################    BERLIN    ###########################
+#*.playgroundSizeX = 5000m
+#*.playgroundSizeY = 5000m
+#*.playgroundSizeZ = 50m
+##########################################################
+# Annotation parameters                                  #
+##########################################################
+*.annotations.draw = true
+##########################################################
+# Obstacle parameters                                    #
+##########################################################
+*.obstacles.obstacles = xmldoc("config.xml", "//AnalogueModel[@type='SimpleObstacleShadowing']/obstacles")
+##########################################################
+#            TraCIScenarioManager parameters             #
+##########################################################
+*.manager.updateInterval = 1s
+*.manager.host = "localhost"
+*.manager.port = 9999
+*.manager.autoShutdown = true
+*.manager.launchConfig = xmldoc("erlangen.launchd.xml")
+
+
+##########################################################
+#                       RSU SETTINGS  BCN                #
+##########################################################
+*.rsu[0].mobility.x = 4840 
+*.rsu[0].mobility.y = 860
+*.rsu[0].mobility.z = 40
+*.rsu[1].mobility.x = 1090 
+*.rsu[1].mobility.y = 1190
+*.rsu[1].mobility.z = 40
+*.rsu[2].mobility.x = 1600 
+*.rsu[2].mobility.y = 1430
+*.rsu[2].mobility.z = 40
+*.rsu[3].mobility.x = 400 
+*.rsu[3].mobility.y = 1540
+*.rsu[3].mobility.z = 40
+*.rsu[4].mobility.x = 1010 
+*.rsu[4].mobility.y = 1620
+*.rsu[4].mobility.z = 40
+*.rsu[5].mobility.x = 570 
+*.rsu[5].mobility.y = 420
+*.rsu[5].mobility.z = 40
+*.rsu[6].mobility.x = 1150 
+*.rsu[6].mobility.y = 620
+*.rsu[6].mobility.z = 40
+*.rsu[7].mobility.x = 330 
+*.rsu[7].mobility.y = 900
+*.rsu[7].mobility.z = 40
+*.rsu[8].mobility.x = 450
+*.rsu[8].mobility.y = 1950
+*.rsu[8].mobility.z = 40
+*.rsu[9].mobility.x = 1530
+*.rsu[9].mobility.y = 2000
+*.rsu[9].mobility.z = 40
+*.rsu[10].mobility.x = 200
+*.rsu[10].mobility.y = 200
+*.rsu[10].mobility.z = 40
+##########################################################
+#                       RSU POSITIONS                    #
+##########################################################
+*.*.appl.RSU0X = 4840
+*.*.appl.RSU0Y = 860
+*.*.appl.RSU1X = 1090  
+*.*.appl.RSU1Y = 1190
+*.*.appl.RSU2X = 1600 
+*.*.appl.RSU2Y = 1430
+*.*.appl.RSU3X = 400 
+*.*.appl.RSU3Y = 1540
+*.*.appl.RSU4X = 1010 
+*.*.appl.RSU4Y = 1620
+*.*.appl.RSU5X = 570 
+*.*.appl.RSU5Y = 420
+*.*.appl.RSU6X = 1150 
+*.*.appl.RSU6Y = 620
+*.*.appl.RSU7X = 330  
+*.*.appl.RSU7Y = 900
+*.*.appl.RSU8X = 450  
+*.*.appl.RSU8Y = 1950
+*.*.appl.RSU9X = 1530
+*.*.appl.RSU9Y = 2000
+*.*.appl.RSU10X = 200
+*.*.appl.RSU10Y = 200
+##########################################################
+#			RSU GENERAL CONFIGURATIONS				     #
+##########################################################
+*.rsu[*].applType = "TraCIDemoRSU11p"
+*.rsu[*].appl.headerLength = 80 bit
+*.rsu[*].appl.sendBeacons = true
+*.rsu[*].appl.dataOnSch = false
+*.rsu[*].appl.beaconInterval = 1s
+*.rsu[*].appl.beaconUserPriority = 7
+*.rsu[*].appl.dataUserPriority = 5
+*.rsu[*].nic.phy80211p.antennaOffsetZ = 0 m
+##########################################################
+#            11p specific parameters                     #
+#                                                        #
+#                    NIC-Settings                        #
+##########################################################
+*.connectionManager.sendDirect = true  
+*.connectionManager.maxInterfDist = 500m   ## ESTTE PARAMETRO INFLUYE EN EL TIMEPO DE SIMULACION YA QUE REVISA LAS SENALES A ESTA DISTANCIA
+*.connectionManager.drawMaxIntfDist = true
+
+*.**.nic.mac1609_4.address = "auto"
+*.**.nic.mac1609_4.useAcks = true
+*.**.nic.mac1609_4.useServiceChannel = false
+
+*.**.nic.mac1609_4.txPower = 20mW
+*.**.nic.mac1609_4.bitrate = 6Mbps
+*.**.nic.phy80211p.minPowerLevel = -110dBm
+
+*.**.nic.phy80211p.useNoiseFloor = true
+*.**.nic.phy80211p.noiseFloor = -98dBm
+
+*.**.nic.phy80211p.decider = xmldoc("config.xml")
+*.**.nic.phy80211p.analogueModels = xmldoc("config.xml")
+*.**.nic.phy80211p.usePropagationDelay = true
+
+*.**.nic.phy80211p.antenna = xmldoc("antenna.xml", "/root/Antenna[@id='monopole']")
+*.node[*].nic.phy80211p.antennaOffsetY = 0 m
+*.node[*].nic.phy80211p.antennaOffsetZ = 1.895 m
+##########################################################
+#                      App Layer                         #
+##########################################################
+*.node[*].applType = "TraCIDemo11p"
+*.node[*].appl.headerLength = 80 bit
+*.node[*].appl.sendBeacons = true
+*.node[*].appl.dataOnSch = false
+*.node[*].appl.beaconInterval = 1s
+##########################################################
+#                      Mobility                          #
+##########################################################
+*.node[*].veinsmobility.x = 0
+*.node[*].veinsmobility.y = 0
+*.node[*].veinsmobility.z = 0
+*.node[*].veinsmobility.setHostSpeed = false
+*.node[*0].veinsmobility.accidentCount = 0
+*.node[*0].veinsmobility.accidentStart = 100000s
+*.node[*0].veinsmobility.accidentDuration = 50s
+##########################################################
+#				EDGE IDs ELECTROLINERAS  			     #
+##########################################################
+*.*.appl.numberofCSs = 2
+*.*.appl.CS1_x_Coord = 1844.41
+*.*.appl.CS1_y_Coord = 5018.12
+*.*.appl.CS2_x_Coord = 6924.44
+*.*.appl.CS2_y_Coord = 2651.41
+*.*.appl.CS1 = "gneE42" 								 #COOR 1844.41,5018.12,0
+*.*.appl.CS2 = "gneE33"								 	 #COOR 6924.44,2651.41,0
+*.*.appl.FastChargingStationPower = 50kW 				 #fast charging > 50kw
+*.*.appl.ClosestCSinDistance = true 			         # CS selection simple strategy
+##########################################################
+#                      Electric Vehicles                 #
+##########################################################
+*.*.appl.BatteryCapacity = 24 kWh  						 #Depends on sumo .rou configuration file
+*.*.appl.BatteryThreshold = 0.4  						 # nivel de battery al que se solicita caga (BatteryThreshold (%) * BatteryCapacity)
+##########################################################
+#   			GENERAL CONFIGURATIONS PABLO			 #
+##########################################################
+*.*.appl.UpdateNodeNeighborsTable = 2s  					#cada cuando se purga la NNT
+*.*.appl.NumberofRSU = 1									#*****CHANGE IN NED FILE********** numero de RSUs en escenario -> sirve para seleccionar el next hop   ***CONFIGURADO PARA UN MAX DE 10 RSUs VERIFY IN .ned 
+*.*.appl.DistanceThreshold = 450 m							#distancia maxima de cobertura. Influye en el calculo de wdist [AHMAD] 
+*.*.appl.Packet_Size = 400 bytes							#usado para el calculo del abe
+*.*.appl.Use_BandwidthEstimation_Metric = false  			#used in MMMR routing protocol
+*.*.appl.beaconLengthBits = 256 bits 						#256 by default -> deberia incrementar ya que agrego bits al beacon para el MMMR
+*.*.appl.MaxNumberofHops = 20					    		# number maximo de saltos para el reenvion MMMR (EV->RSU)
+*.*.appl.Tabu = true										#utiliza o no la lista de nodos not elegibles
+*.*.appl.msg_rate = 0.2 pps					 	   		    #SREQ packets per second  ///DEPENDS ON THE BEACON INTERVAL 1s default	/>min rate
+*.*.appl.printDebug = false									#print banners and outputs in console
+*.*.appl.Check_Density_Interval = 20s						#interval to update vehicles density // ALL INITIALIZED VEHICLES ARE FFV
+*.*.appl.Numm_of_Vehicles_Routes = 1833						#Number of route in the .rou -> chose randomply a route to add vehicles
+*.*.appl.pathToSaveTXT = "/root/Documents/RESULTS/2hGAR/results/"  #statistics for graphics
+*.*.appl.EV_Service_Msg = false								#TRUE => JUST EVs send mesages. FALSE ALL vehicles send messages
+*.*.appl.Distance_Threshold_To_Send = 1 m 				# distancia minima a la que el nodo enviaria el msg
+##########################################################
+#				SIMULATION SCENARIOs					 #
+##########################################################
+[Config LD]
+*.manager.launchConfig = xmldoc("bcn.launchd.xml")
+repeat = 10								 			    	#max repetition number in bundle -> ENABLE WITH BATCH SCRIP					
+seed-set=${repetition}										#different seed for each repetition	
+#*.manager.roiRects = ("1000,2000-6000,3500")					#TEST ROI OF INTEREST
+*.manager.roiRects = ("3500,2500-5500,3500")					#TEST ROI OF INTEREST
+*.*.appl.run_num = ${repetition}							#indluded in name of results file
+*.*.appl.Conf_Name = "${configname}"						#included in name of results file
+*.*.appl.Max_EV_Density = 0              					#RANDOM -- ADDED AT Simtime -> Check_Density_Interval
+*.*.appl.Max_FFV_Density = 0	#default 1 FFV	    #TOTAL FFV = FFV in .rou(flows) + random FFV  ****current FLOWS 250
+
+####################################################################################################################
+[Config MD]
+*.manager.launchConfig = xmldoc("MD.launchd.xml")
+repeat = 10								 				    #max repetition number in bundle -> ENABLE WITH BATCH SCRIP					
+seed-set=${repetition}	
+*.manager.roiRects = ("200,200-2500,3500")					#TEST ROI OF INTEREST									#different seed for each repetition	
+*.*.appl.run_num = ${repetition}							#indluded in name of results file
+*.*.appl.Conf_Name = "${configname}"						#included in name of results file
+*.*.appl.Max_EV_Density = 10	        					#RANDOM -- ADDED AT Simtime -> Check_Density_Interval
+*.*.appl.Max_FFV_Density = 400		#default 200 FFV        #TOTAL FFV = FFV in .rou(flows) + random FFV  ****current FLOWS 250
+*.*.appl.printDebug = false	
+####################################################################################################################
