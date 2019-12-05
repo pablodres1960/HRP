@@ -465,12 +465,7 @@ int BeaconList::TwohGAR_Conditions(bool MMMR_Only, int Original_sender, bool TL,
 ///                             MMMR CONDITIONS                                         ///
 ///=====================================================================================///
 
-            if(MsgType != "beacon" && Original_sender == n){                 //ENVIO EL MSG AL MISMO NODO ORIGEN INDICA PROBLEMAS DE LOOPS
-
-           //     std::cerr<<myID<<"  T:"<<simTime()<<endl;
-                Condition = 6;break;
-            }
-
+            if(MsgType != "beacon" && Original_sender == n){Condition = 6;break;}                                             //ENVIO EL MSG AL MISMO NODO ORIGEN INDICA PROBLEMAS DE LOOPS
 
             if(MMMR_Only){
                 if(Condition == 0){
@@ -481,13 +476,6 @@ int BeaconList::TwohGAR_Conditions(bool MMMR_Only, int Original_sender, bool TL,
                     }
                 }
             }
-
-            /*     if(Condition == 0){
-
-                if(N_DstToRSU < curr->dsd || curr->Local_N_GS > n_S){Condition = 2;break;}
-                //else{std::cerr<<myID<<"  E:"<<n<<endl;}
-            }
-            */
 
 ///=====================================================================================///
 ///                             NH IN NNT CONDITIONS                                    ///
