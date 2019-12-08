@@ -93,7 +93,7 @@ public:
         SEND_WSA_EVT,
     };
 
-    struct Buffer_Element_Type{int MsgId;simtime_t MsgArivalTime;int Hops;int SenderID;vector <int> TabuList_MSG={0,0,0};};
+    struct Buffer_Element_Type{int MsgId;simtime_t MsgArivalTime;int Hops;int SenderID;vector <int> TabuList_MSG={0,0,0};vector <int> LongTabuList_MSG={0,0,0,0,0,0};};
 
 
 protected:
@@ -284,6 +284,7 @@ protected:
               * @param bsm and next hop to add to tabulist
               */
     virtual void TabuList_Read_Update(DemoSafetyMessage* bsm,string ReadOrUpdate, LAddress::L2Type nexthopAddress,bool NHisRSU);
+    virtual void LongTabuList_Read_Update(DemoSafetyMessage* bsm,string ReadOrUpdate, LAddress::L2Type nexthopAddress,bool NHisRSU);
     /**
              * @  update NNT and return true if NNT is empy false else
              *
@@ -453,6 +454,7 @@ protected:
     int Conter_SRESP_Msgs;
     int MaxNumberofHops;
     bool MMMR_Only;
+    int Median_msg_interval;
     //#######################################################################################//
     //#########################  DENSITY         ############################################//
     //#######################################################################################//
@@ -469,7 +471,9 @@ protected:
     double NH_GS;
     double NH_Dst_to_Dest;
     bool Tabu;
+    bool LongTabu;
     vector <int> TabuList;
+    vector <int> LongTabuList;
     double CurrentNodeBestNH;
     //#######################################################################################//
     //#########################      BUFFER      ############################################//
@@ -478,7 +482,7 @@ protected:
     simtime_t Free_Buffer_SEND_msg;
     DemoBaseApplLayer::Buffer_Element_Type Msg_Info;
     list<DemoBaseApplLayer::Buffer_Element_Type> Buffer_List;  //INCLUYE MSG TREEID Y ARRIVAL_TIME
-   // list<DemoSafetyMessage*> Buffer_MSG;  //INCLUYE MSG TREEID Y ARRIVAL_TIME
+
 };
 
 } // namespace Veins

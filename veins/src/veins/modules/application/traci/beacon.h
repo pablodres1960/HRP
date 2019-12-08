@@ -89,7 +89,7 @@ public:
     void CheckForLoops(int myId);                                ///CANDIDATE NODE --> LOOOPS
     void NHinCurrentNNT(int myId);                               ///CANDIDATE NODE --> NH in my NNT signfica que el NH de mi vecino tambien es mi vecino; entonces descarto este nodo como candidato ya que puede enviar directamente al NH
     void TabuListSearch(vector <int> TabuList, int nodeID);      ///CANDIDATE NODE --> Busca si tengo nodos en la Tabulist en mi NNT para marcarlos como no elegibles
-    int TwohGAR_Conditions(bool MMMR_Only, int OriginalSenderID, bool TL, vector <int> TabuList, int myID, string MsgType, double N_DstToRSU, bool printDebug, int MsgID);
+    int TwohGAR_Conditions(bool MMMR_Only, int OriginalSenderID, bool TL, vector <int> TabuList, bool LongTL, vector <int> LongTabuList, int myID, string MsgType, double N_DstToRSU, bool printDebug, int MsgID);
     double n_S(int nexthopAddress);
     double n_DsttoRSU(int nexthopAddress);
 };

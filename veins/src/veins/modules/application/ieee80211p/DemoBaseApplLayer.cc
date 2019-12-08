@@ -168,12 +168,15 @@ void DemoBaseApplLayer::initialize(int stage)
         Conter_SRESP_Msgs = 0;
         MaxNumberofHops = par("MaxNumberofHops").longValue();
         MMMR_Only = par("MMMR_Only").boolValue();
+        Median_msg_interval = par("Median_msg_interval").longValue();
 //#######################################################################################//
 //#########################  2hGAR LUIS  ################################################//
 //#######################################################################################//
         Tabu = par("Tabu").boolValue();
         TabuList = {0,0,0};
-        TabuList.size();
+        LongTabu = par("LongTabu").boolValue();
+        LongTabuList = {0,0,0,0,0,0};
+
 //#######################################################################################//
 //#########################  SAVE DATA TO TXT############################################//
 //#######################################################################################//
@@ -198,15 +201,23 @@ void DemoBaseApplLayer::initialize(int stage)
             std::cerr<<"=========================="<<endl;
             std::cerr<<"Settings:"<<Conf_Name<<endl;
             std::cerr<<"=========================="<<endl;
-            std::cerr<<"TabuList(TL):"<<Tabu<<endl;
-            if(Tabu){std::cerr<<"TL size:"<<TabuList.size()<<endl;}
+            if(Tabu){
+                if(LongTabu){
+                    std::cerr<<"LongTabuList(TL):"<<LongTabu<<endl;
+                    std::cerr<<"TL size:"<<LongTabuList.size()<<endl;
+                }
+                else{
+                    std::cerr<<"TabuList(TL):"<<Tabu<<endl;
+                    std::cerr<<"TL size:"<<TabuList.size()<<endl;
+                }
+            }
             std::cerr<<"Buffer:"<<Buffer_TimeOut<<"s"<<endl;
             std::cerr<<"MMMR:"<< MMMR_Only<<endl;
             std::cerr<<"Hops Max:"<<MaxNumberofHops<<endl;
             std::cerr<<"Sim time:"<<SimTimeParameter<<endl;
             std::cerr<<"=========================="<<endl;
             print_settings = true;
-      }
+        }
 //###########################################################################################//
 
     }
@@ -311,9 +322,13 @@ void DemoBaseApplLayer::populateWSM(BaseFrame1609_4* wsm, LAddress::L2Type rcvId
 
 ///======================================= Inicialize to 0 TabuList =========================================
     TabuList = {0,0,0};
-
     int TL_size = TabuList.size();
     for (int i=0; i < TL_size;i++){wsm->setTabuList(i,TabuList[i]);}
+
+    LongTabuList = {0,0,0,0,0,0};
+    int Long_TL_size = LongTabuList.size();
+    for (int j=0; j < Long_TL_size;j++){wsm->setLongTabuList(j,LongTabuList[j]);}
+
 //======================================= Inicialize NH_GS ================================================
     if(nodeType == "rsu"){
         wsm->setNH_GS(1);
@@ -530,9 +545,12 @@ bool DemoBaseApplLayer::TwohGAR(int OriginalSenderID, DemoSafetyMessage* bsm,str
 ///=====================================================================================================================================///
 ///                                                    TABU LIST READ
 ///=====================================================================================================================================///
-    if(MsgType == "fwd"){if(Tabu){TabuList_Read_Update(bsm,"READ",nexthopAddress,NHisRSU);}}    //obtengo del beacon la lista de nodos no elegibles     //*********LA TABU LIST CONTIENE LOS ULTIMOS SALTOS DEL BEACON
+    if(MsgType == "fwd" && Tabu){                      //obtengo del beacon la lista de nodos no elegibles     //*********LA TABU LIST CONTIENE LOS ULTIMOS SALTOS DEL BEACON
+        if(LongTabu){LongTabuList_Read_Update(bsm,"READ",nexthopAddress,NHisRSU);}
+        else{TabuList_Read_Update(bsm,"READ",nexthopAddress,NHisRSU);}
+    }
 
-    ///=====================================================================================================================================///
+///=====================================================================================================================================///
 ///                              1.       REVISO SI HAY UN RSU EN CURRENT NODES' NNT
 ///=====================================================================================================================================///
     int idRSU = ListBeacon.SearchBeaconRSU();                                ///Return 0 if no rsu. Return Nid(senderaddrress) if rsu in NNT of current node
@@ -541,8 +559,7 @@ bool DemoBaseApplLayer::TwohGAR(int OriginalSenderID, DemoSafetyMessage* bsm,str
 ///                              2.       2 HGAR Y MMMR CONTITIONS TO SELECT NEXT HOP
 ///=====================================================================================================================================///
     else{                                                                    // NO HAY UN RSU EN NNT ENTONCES REVISO MI NEXT HOP. TwohGAR_AND_MMMR_Conditions -> REVISA LAS CONDICIONES DEL 2HGAR PARA FILTRAR LOS NODOS CANDIDATOS Y LUEGO SE USA EL MMMR PARA SELECCIONAR EL NEXT HOP
-
-        nexthopAddress = ListBeacon.TwohGAR_Conditions(MMMR_Only, OriginalSenderID,Tabu,TabuList, myId,MsgType, My_Curr_DistanceToRSU,printDebug,MsgID);    ///CHECK 2hGAR conditions for all n in NNT
+        nexthopAddress = ListBeacon.TwohGAR_Conditions(MMMR_Only, OriginalSenderID,Tabu,TabuList,LongTabu,LongTabuList,myId,MsgType, My_Curr_DistanceToRSU,printDebug,MsgID);    ///CHECK 2hGAR conditions for all n in NNT
     }
 ///=====================================================================================================================================///
 ///  REENVIO MSG AL  nexthopAddress ID YA SEA UN RSU O UN NH SELECCIONADO EN  TwohGAR_AND_MMMR_Conditions  ||  PRIMER MENSAJE DE SREQ
@@ -575,8 +592,9 @@ void DemoBaseApplLayer::FWD_MSG_TO_NH(DemoSafetyMessage* bsm, LAddress::L2Type n
 
     At_Node_UpdateNextHopFields_Once_MMMR_Select_NH(bsm,nexthopAddress);                             //ACTUALIZA EL RECIPIENT ADDRESS PARA REENVIO DE BEACON
 
-    if(MsgType == "fwd"){                                                                            //TL UPDATE
-        if(Tabu){TabuList_Read_Update(bsm,"UPDATE",nexthopAddress,NHisRSU);}
+    if(MsgType == "fwd" && Tabu){                                                                            //TL UPDATE
+        if(LongTabu){LongTabuList_Read_Update(bsm,"UPDATE",nexthopAddress,NHisRSU);}
+        else{TabuList_Read_Update(bsm,"UPDATE",nexthopAddress,NHisRSU);}
     }
 }
 
@@ -603,11 +621,8 @@ void DemoBaseApplLayer::UPDATE_BEACON_NH_FIELDS_WTIH_CURRENT_NODE_INFO(DemoSafet
 
 void DemoBaseApplLayer::TabuList_Read_Update(DemoSafetyMessage* bsm,string ReadOrUpdate, LAddress::L2Type nexthopAddress,bool NHisRSU){
 
-    if(ReadOrUpdate == "READ"){
-
-        for(int i=0;i<TabuList.size();i++){TabuList[i] = bsm->getTabuList(i);}
-
-    }else if (ReadOrUpdate == "UPDATE"){
+    if(ReadOrUpdate == "READ"){for(int i=0;i<TabuList.size();i++){TabuList[i] = bsm->getTabuList(i);}}
+    else if (ReadOrUpdate == "UPDATE"){
 
         if(!NHisRSU){                                            ///SI EL NEXTHOP ES UN RSU NO LO AGREGO AL TABU LIST
 
@@ -617,6 +632,24 @@ void DemoBaseApplLayer::TabuList_Read_Update(DemoSafetyMessage* bsm,string ReadO
             for(int i=0;i<TabuList.size();i++){bsm->setTabuList(i, TabuList[i]);}
 
         }else{for(int i=0;i<TabuList.size();i++){bsm->setTabuList(i, TabuList[i]);}}
+    }
+}
+
+void DemoBaseApplLayer::LongTabuList_Read_Update(DemoSafetyMessage* bsm,string ReadOrUpdate, LAddress::L2Type nexthopAddress,bool NHisRSU){
+
+    if(ReadOrUpdate == "READ"){for(int i=0;i<LongTabuList.size();i++){LongTabuList[i] = bsm->getLongTabuList(i);}}
+    else if (ReadOrUpdate == "UPDATE"){
+
+        if(!NHisRSU){                                            ///SI EL NEXTHOP ES UN RSU NO LO AGREGO AL TABU LIST
+            LongTabuList[5] = LongTabuList[4];
+            LongTabuList[4] = LongTabuList[3];
+            LongTabuList[3] = LongTabuList[2];
+            LongTabuList[2] = LongTabuList[1];
+            LongTabuList[1] = LongTabuList[0];
+            LongTabuList[0] = nexthopAddress;
+
+            for(int i=0;i<LongTabuList.size();i++){bsm->setLongTabuList(i, LongTabuList[i]);}
+        }else{for(int i=0;i<LongTabuList.size();i++){bsm->setLongTabuList(i, LongTabuList[i]);}}
     }
 }
 
@@ -688,7 +721,20 @@ void DemoBaseApplLayer::BUFFER_MSG(DemoSafetyMessage* bsm, string MsgType){
         if(MsgType == "fwd"){Msg_Info.Hops = hops-1;}               ///EN EL CASO QUE UN MSG RECIBIDO NO SE A PODIDO ENVIAR SE DEBE REDUCIR LOS HOPS
         else{Msg_Info.Hops = hops;}
 
-        if(Tabu){for(int i=0;i<TabuList.size();i++){Msg_Info.TabuList_MSG[i] = bsm->getTabuList(i);}}     ///SAVE TABU LIST IN MSG TO BUFFER
+        ///SAVE TABU LIST IN MSG TO BUFFER
+        if(Tabu){
+            if(LongTabu){
+                for(int i=0;i<LongTabuList.size();i++){
+                    Msg_Info.LongTabuList_MSG[i] = bsm->getLongTabuList(i);
+                }
+            }
+            else{
+                for(int i=0;i<TabuList.size();i++){
+                    Msg_Info.TabuList_MSG[i] = bsm->getTabuList(i);
+                }
+            }
+        }
+
         Buffer_List.push_back(Msg_Info);                                                                   /// ADD MSG INFO IN LAST POSITION IN BUFFER
 
         if(printDebug){PRINT_BUFFER();}

@@ -45,9 +45,12 @@ void TraCIDemo11p::initialize(int stage)
 //############################//  PROTOCOL       //#######################################//
 //#######################################################################################//
         Msg_Interval_Counter = 0;           //USADO PARA EL INTERVALO DE ENVIO DE MSG
+        if(Median_msg_interval <= 2){std::cerr<<"ERROR Median_msg_interval debe ser mayor a 2 !!!!!!!!!!!!!!"<<endl;}
+        int min_interval = Median_msg_interval - 2;
+        int max_interval = Median_msg_interval + 2;
         std::random_device rd;
         std::mt19937 e2(rd());
-        std::uniform_int_distribution<> dist(2, 6);
+        std::uniform_int_distribution<> dist(min_interval, max_interval);
         msg_interval_send_msg = dist(e2);
 
     }
@@ -107,7 +110,6 @@ void TraCIDemo11p::Send_Msg(){                                      //crea un be
 ///=====================================================================================================///
 ///       SEND NEW MSG ACCORDING TO MSG_INTERVAL &&   AND THEN TRY TO SEND MSG IN BUFFER                ///
 ///=====================================================================================================///
-
     int Interval_To_Send_Beacons = msg_interval_send_msg;                 ////DEPENDS ON BEACON INTERVAL -> msg_interval per beacons
 
     if(Msg_Interval_Counter == Interval_To_Send_Beacons && simTime() <= TimeToEndSendingMSGs){
@@ -141,7 +143,17 @@ void TraCIDemo11p::TRY_TO_SEND_MSG_IN_BUFFER(){
 
             DemoBaseApplLayer::Buffer_Element_Type Buffer_Msg = *it;
 
-            if(Tabu){for(int i=0;i<TabuList.size();i++){New_Msg->setTabuList(i, Buffer_Msg.TabuList_MSG[i]);}}
+            if(Tabu){
+                if(LongTabu){
+                    for(int i=0;i<LongTabuList.size();i++){
+                        New_Msg->setLongTabuList(i, Buffer_Msg.LongTabuList_MSG[i]);
+                    }
+                }else{
+                    for(int i=0;i<TabuList.size();i++){
+                        New_Msg->setTabuList(i, Buffer_Msg.TabuList_MSG[i]);
+                    }
+                }
+            }
 
             int OriginalSenderID = Buffer_Msg.SenderID;
 
@@ -160,8 +172,11 @@ void TraCIDemo11p::TRY_TO_SEND_MSG_IN_BUFFER(){
 
                     if(Tabu){
                         if(ListBeacon.SearchRSUid(New_Msg->getRecipientAddress())){NH_is_RSU = true;}
-                        DemoBaseApplLayer::TabuList_Read_Update(New_Msg,"UPDATE",New_Msg->getRecipientAddress(),NH_is_RSU);
+
+                        if(LongTabu){DemoBaseApplLayer::LongTabuList_Read_Update(New_Msg,"UPDATE",New_Msg->getRecipientAddress(),NH_is_RSU);}
+                        else{DemoBaseApplLayer::TabuList_Read_Update(New_Msg,"UPDATE",New_Msg->getRecipientAddress(),NH_is_RSU);}
                     }
+
 
                     if(printDebug){std::cerr<<myId<<"  -- DEL:"<<Buffer_Msg.MsgId<<"          Buffer Size:"<<Buffer_List.size()-1<<"    T:"<<simTime()<<endl;}
                     it = Buffer_List.erase(it);                                                                 //BORRA EL MENSAJE DEL BUFFER

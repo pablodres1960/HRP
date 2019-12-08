@@ -434,7 +434,7 @@ void BeaconList::SortBeacons(int Num_of_Metrics){//organize
 // 2hGAR/MMMR CONDITIONS
 //=======================================================================================
 
-int BeaconList::TwohGAR_Conditions(bool MMMR_Only, int Original_sender, bool TL, vector <int> TabuList, int myID,string MsgType, double N_DstToRSU, bool printDebug, int MsgID){
+int BeaconList::TwohGAR_Conditions(bool MMMR_Only, int Original_sender, bool TL, vector <int> TabuList, bool LongTL, vector <int> LongTabuList, int myID,string MsgType, double N_DstToRSU, bool printDebug, int MsgID){
 
     int NH_Id = myID;  //temp
     double Last_n_NH_S = -2;            // -1 is the default Score for nodes without neighbors
@@ -454,25 +454,30 @@ int BeaconList::TwohGAR_Conditions(bool MMMR_Only, int Original_sender, bool TL,
 ///=====================================================================================///
 ///                    TABU LIST CONDITION   -> BEACON TL={0,0,0}                       ///
 ///=====================================================================================///
-            if(MsgType != "beacon"){                                                                   ///EL BEACON NO REVISA TL. ARRANCA CON TL={0,0,,0}
-                if(TL){                                                                                /// REVISO SI EL n entry en N NNT esta en la TabuList
+            if(MsgType != "beacon" && TL){                                                                   ///EL BEACON NO REVISA TL. ARRANCA CON TL={0,0,,0}
+                if(LongTL){                                                                             /// REVISO SI EL n entry en N NNT esta en la TabuList
+                    for(int i=0;i<LongTabuList.size();i++){
+                        if(n == LongTabuList[i]){Condition = 1;break;}
+                    }
+                }else{
                     for(int i=0;i<TabuList.size();i++){
                         if(n == TabuList[i]){Condition = 1;break;}
                     }
                 }
             }
+
 ///=====================================================================================///
 ///                             MMMR CONDITIONS                                         ///
 ///=====================================================================================///
 
-            if(MsgType != "beacon" && Original_sender == n){Condition = 6;break;}                                             //ENVIO EL MSG AL MISMO NODO ORIGEN INDICA PROBLEMAS DE LOOPS
+            if(MsgType != "beacon" && Original_sender == n){Condition = 2;break;}                       //ENVIO EL MSG AL MISMO NODO ORIGEN INDICA PROBLEMAS DE LOOPS
 
             if(MMMR_Only){
                 if(Condition == 0){
                     if(curr->Local_N_GS == n_S){
-                        if(curr->dsd > N_DstToRSU){Condition = 7;break;}  //test sin esto
+                        if(curr->dsd > N_DstToRSU){Condition = 5;break;}  //test sin esto
                     }else{
-                        if(curr->Local_N_GS > n_S){Condition = 8;break;}
+                        if(curr->Local_N_GS > n_S){Condition = 6;break;}
                     }
                 }
             }
@@ -484,13 +489,13 @@ int BeaconList::TwohGAR_Conditions(bool MMMR_Only, int Original_sender, bool TL,
 
               int n_NH = curr->NH_Address;
 
-              if(Condition == 0 && n_NH == myID){Condition = 9;break;}               ///EL NEXT HOP DE n soy yo N. NO es candidato elegible
+              if(Condition == 0 && n_NH == myID){Condition = 3;break;}               ///EL NEXT HOP DE n soy yo N. NO es candidato elegible
 
               if(Condition == 0 && n != n_NH){                                       ///  EXCEPTION ->  n = n_NH -> el next hop es el propio nodo
 
                   Aux = head;
                   while(Aux != NULL && n_NH != Aux->idVehicle){Aux = Aux->next;}                                   ///Elegible status TRUE
-                  if(Aux != NULL){Condition = 3;break;}
+                  if(Aux != NULL){Condition = 4;break;}
 
               }
           }

@@ -70,6 +70,8 @@ packet BaseFrame1609_4 {
     bool SRESP = false;
 	//TabuList
 	int TabuList[3];										//=== NEW FIELDS LUIS
+	//LongTabuList
+	int LongTabuList[6];										//=== NEW FIELDS LUIS
 	// Save Original Node Position for routing protocol
     Coord FinalSenderPosition; 
     //TreeID save

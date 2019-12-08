@@ -120,6 +120,9 @@ simple DemoBaseApplLayer like IBaseApplLayer
         
         //2hGAR LUIS
         bool Tabu = default(true);
+      
+        //2hGAR LUIS
+        bool LongTabu = default(false);
         
        	//Expiration of message in buffer
       	int Buffer_TimeOut = default(5s) @unit(s);
@@ -133,6 +136,8 @@ simple DemoBaseApplLayer like IBaseApplLayer
       	//parameter for compute end of send msgs
       	int SimTimeParameter = default(300s) @unit(s);
       	
+      	//Median_msg_interval
+      	int Median_msg_interval = default(5s) @unit(s);
       	//usa solo MMMR
       	bool MMMR_Only = default(false);
       	
