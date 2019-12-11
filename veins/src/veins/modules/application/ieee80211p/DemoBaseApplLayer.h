@@ -330,7 +330,7 @@ protected:
     ///======================================================================================///
     ///============================= SAVE RESULTS  =========================================///
     ///======================================================================================///
-    virtual void Save_SREQ_MSG(int treeID, string Send_Recevied, int hops, simtime_t Creation_Arrival_Time);
+    virtual void Save_SREQ_MSG(int treeID, string Send_Recevied, int hops);
     virtual void Save_SREQ_MSG_Tittle();
     ///======================================================================================///
 

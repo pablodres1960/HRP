@@ -83,7 +83,7 @@ void TraCIDemoRSU11p::onBSM(DemoSafetyMessage* bsm) {   ///SE PROCESA EL MSG REC
         if(printDebug){std::cerr<<myId<<"   --    R    --> "<<bsm->getSenderAddress()<<"  B_TreeId:"<<bsm->getBuffer_TreeId()<<"   H:"<<bsm->getHopsCounter()<<"   SA:"<<bsm->getSenderAddress()<<"   T:"<<simTime()<<endl;}
 
         if(simTime() <= TimeToEndSendingMSGs){                          ///deja de recibir los ultimos mensajes
-            Save_SREQ_MSG(bsm->getBuffer_TreeId(),"R",bsm->getHopsCounter(),bsm->getArrivalTime());      //GUARDA LOS MSG QUE LLEGAN CON SREQ TRUE
+            Save_SREQ_MSG(bsm->getBuffer_TreeId(),"R",bsm->getHopsCounter());      //GUARDA LOS MSG QUE LLEGAN CON SREQ TRUE
         }
     }
 }

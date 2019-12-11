@@ -971,7 +971,7 @@ void DemoBaseApplLayer::SAVE_MSG_S_SIGNAL(DemoSafetyMessage* bsm){
     int New_MSG_SenderAddress = bsm->getSenderAddress();
     if(New_MSG_SenderAddress == myId){
         Conter_SREQ_Msgs++;
-        Save_SREQ_MSG(bsm->getBuffer_TreeId(),"S",bsm->getHopsCounter(),bsm->getCreationTime());          ///save sreq mgs PARA ESTADISTICAS
+        Save_SREQ_MSG(bsm->getBuffer_TreeId(),"S",bsm->getHopsCounter());          ///save sreq mgs PARA ESTADISTICAS
     }
 
     ///IMPRIME EL FORWARD PERO NO CONTABILIZA PARA ESTADISTICAS
@@ -1297,14 +1297,14 @@ void DemoBaseApplLayer::EV_Density(){
     }
 }
 
-void DemoBaseApplLayer::Save_SREQ_MSG(int treeID, string Send_Recevied, int hops, simtime_t Creation_Arrival_Time){
+void DemoBaseApplLayer::Save_SREQ_MSG(int treeID, string Send_Recevied, int hops){
 
     if(!set_tittle){Save_SREQ_MSG_Tittle();}
 
     SREQ_MSG.open(SavToFile, ios::out | ios::app );  //para leer datos ios::in
 
     if (SREQ_MSG.is_open()){
-        SREQ_MSG <<Send_Recevied<< " " <<myId << " " << treeID << " " << hops << " " << simTime()<< " " << Creation_Arrival_Time <<'\n';
+        SREQ_MSG <<Send_Recevied<< " " <<myId << " " << treeID << " " << hops << " " << simTime()<<'\n';
         SREQ_MSG.close();
     }
     else cout << "ERROR NO SE PUEDE ABRIR EL ARCHIVO"<< '\n';
