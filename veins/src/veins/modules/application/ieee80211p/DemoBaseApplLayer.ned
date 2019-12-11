@@ -138,8 +138,12 @@ simple DemoBaseApplLayer like IBaseApplLayer
       	
       	//Median_msg_interval
       	int Median_msg_interval = default(5s) @unit(s);
+      	
       	//usa solo MMMR
       	bool MMMR_Only = default(false);
+      	
+      	//usado para banner nada mas
+      	int repeat_number = default(0);
       	
     gates:
         input lowerLayerIn; // from mac layer

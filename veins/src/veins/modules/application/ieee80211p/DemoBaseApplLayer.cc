@@ -196,7 +196,7 @@ void DemoBaseApplLayer::initialize(int stage)
         Buffer_TimeOut = par("Buffer_TimeOut").longValue();
 //########################      PRINT SETTIGNG     ######################################################//
 
-        if(!print_settings){
+        if(!print_settings && repeat_number == 0){
            // cout<<"\n";
             std::cerr<<"=========================="<<endl;
             std::cerr<<"Settings:"<<Conf_Name<<endl;
