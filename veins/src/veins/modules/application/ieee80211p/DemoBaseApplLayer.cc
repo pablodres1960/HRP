@@ -195,7 +195,7 @@ void DemoBaseApplLayer::initialize(int stage)
 //########################      BUFFER     ######################################################//
         Buffer_TimeOut = par("Buffer_TimeOut").longValue();
 //########################      PRINT SETTIGNG     ######################################################//
-
+/*
         if(!print_settings && repeat_number == 0){
            // cout<<"\n";
             std::cerr<<"=========================="<<endl;
@@ -218,6 +218,7 @@ void DemoBaseApplLayer::initialize(int stage)
             std::cerr<<"=========================="<<endl;
             print_settings = true;
         }
+*/
 //###########################################################################################//
 
     }
